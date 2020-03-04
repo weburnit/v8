@@ -21,8 +21,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/augustoroman/v8"
-	"github.com/augustoroman/v8/v8console"
+	"github.com/weburnit/v8"
+	"github.com/weburnit/v8/v8console"
 	"github.com/peterh/liner"
 )
 
