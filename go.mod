@@ -1,4 +1,4 @@
-module github.com/augustoroman/v8
+module github.com/weburnit/v8
 
 go 1.13
 
