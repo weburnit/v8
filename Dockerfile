@@ -6,7 +6,7 @@ FROM golang as builder
 #   RUN go get github.com/augustoroman/v8 ||:
 # but this allows using any local modifications.
 ARG GO_V8_DIR=/go/src/github.com/weburnit/v8/
-ADD *.go *.h *.cc $GO_V8_DIR
+ADD *.go *.h *.cc .git $GO_V8_DIR
 ADD cmd $GO_V8_DIR/cmd/
 ADD v8console $GO_V8_DIR/v8console/
 
@@ -16,12 +16,12 @@ COPY --from=v8 /v8/include $GO_V8_DIR/include/
 
 # Install the go code and run tests.
 WORKDIR $GO_V8_DIR
+RUN git remote add -f v8 https://github.com/weburnit/v8
+RUN git fetch v8
 RUN go get ./...
 RUN go test ./...
 # ------------ Build the final container for v8-runjs -----------------------
 # TODO(aroman) find a smaller container for the executable! For some reason,
 # scratch, alpine, and busybox don't work. I wonder if it has something to do
 # with cgo?
-FROM ubuntu:16.04
-COPY --from=builder /go/bin/v8-runjs /v8-runjs
-CMD /v8-runjs
+RUN go get -u github.com/weburnit/gov8
